@@ -1,0 +1,7 @@
+common:
+    includes:
+        - source/target/onsemi/ncs36510
+    sources:
+        target:
+            - source/target/onsemi/ncs36510/app_config.c
+            - source/target/onsemi/ncs36510/target_reset.c        
