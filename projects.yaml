@@ -90,3 +90,7 @@ projects:
         - *module_if
         - *module_hdk_lpc11u35
         - records/target/ncs36510.yaml
+    k20dx_ncs36510_if:
+        - *module_if
+        - *module_hdk_k20dx128
+        - records/target/ncs36510.yaml
