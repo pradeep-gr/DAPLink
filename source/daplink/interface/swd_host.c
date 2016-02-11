@@ -822,8 +822,19 @@ uint8_t swd_set_target_state_hw(TARGET_RESET_STATE state)
             os_dly_wait(2);
             swd_set_target_reset(0);
             os_dly_wait(2);
+		   
+						// re-initialize in case debug hardware resets on a hardware reset
+						if (!swd_init_debug()) {
+                return 0;
+            }
+		
             do {
-                if (!swd_read_word(DBG_HCSR, &val)) {
+								// if debug logic got reset, then halt on reset didn't work, so halt now
+								// Enable debug and halt the core (DHCSR <- 0xA05F0003)
+								if (!swd_write_word(DBG_HCSR, DBGKEY | C_DEBUGEN | C_HALT)) {
+										return 0;
+								}  
+								if (!swd_read_word(DBG_HCSR, &val)) {
                     return 0;
                 }
             } while((val & S_HALT) == 0);
